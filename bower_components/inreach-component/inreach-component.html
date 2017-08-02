@@ -1,0 +1,1581 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../iron-media-query/iron-media-query.html">
+<link rel="import" href="../iron-form/iron-form.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="inreach-component-style.html">
+<dom-module id="inreach-component">
+    <template>
+    <style include="inreach-component-style">
+      :host {
+        display: block;
+      }
+       .size {
+        width: 100%;
+        height: 100px !important;
+        margin-top: 14px;
+        margin-left: 150px !important;
+        max-width: 66% !important;
+    }
+
+    .fileContainer {
+        overflow: hidden;
+        position: relative;
+    }
+
+        .fileContainer [type=file] {
+            cursor: inherit;
+            display: block;
+            font-size: 999px;
+            filter: alpha(opacity=0);
+            min-height: 100%;
+            min-width: 100%;
+            opacity: 0;
+            position: relative;
+            right: 0;
+            text-align: right;
+            top: 0;
+        }
+
+    input[type="text"].form-control {
+        border: none;
+        border-bottom: 1px solid #eee;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+
+    .page-section {
+        margin-left: 0px;
+    }
+
+    .delbutton {
+        position: relative;
+        margin: 20px auto;
+        height: 26px;
+        width: 120px;
+        background: #666666;
+    }
+
+    .fileUpload {
+        position: relative;
+        overflow: hidden;
+        margin: 10px;
+    }
+
+    .fileUpload input.upload {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+
+    .switch {
+        position: relative;
+        margin: 20px auto;
+        height: 26px;
+        width: 120px;
+        background: #666666;
+        /*border-radius: 3px;
+                  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+                  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);*/
+    }
+
+    .switch-label {
+        position: relative;
+        z-index: 2;
+        float: left;
+        width: 58px;
+        line-height: 26px;
+        font-size: 11px;
+        color: white;
+        text-align: center;
+        /*text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);*/
+        cursor: pointer;
+    }
+
+        .switch-label:active {
+            font-weight: bold;
+        }
+
+    .switch-label-off {
+        padding-left: 2px;
+    }
+
+    .switch-label-on {
+        padding-right: 2px;
+    }
+
+    .switch-input {
+        display: none;
+    }
+
+        .switch-input:checked + .switch-label {
+            font-weight: bold;
+            color: white;
+            /*text-shadow: 0 1px rgba(255, 255, 255, 0.25);*/
+            -webkit-transition: 0.15s ease-out;
+            -moz-transition: 0.15s ease-out;
+            -o-transition: 0.15s ease-out;
+            transition: 0.15s ease-out;
+        }
+
+        .switch-input:checked + .switch-label-on ~ .switch-selection {
+            left: 60px;
+        }
+
+
+    .switch-selection {
+        display: block;
+        position: absolute;
+        z-index: 1;
+        top: 2px;
+        left: 2px;
+        width: 58px;
+        height: 22px;
+        background: #F15D42;
+        /*border-radius: 3px;*/
+        /*background-image: -webkit-linear-gradient(top, #9dd993, #F15D42);
+                  background-image: -moz-linear-gradient(top, #9dd993, #F15D42);
+                  background-image: -o-linear-gradient(top, #9dd993, #F15D42);
+                  background-image: linear-gradient(to bottom, #9dd993, #F15D42);*/
+        /*-webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.5), 0 0 2px rgba(0, 0, 0, 0.2);
+                  box-shadow: inset 0 1px rgba(255, 255, 255, 0.5), 0 0 2px rgba(0, 0, 0, 0.2);*/
+        -webkit-transition: left 0.15s ease-out;
+        -moz-transition: left 0.15s ease-out;
+        -o-transition: left 0.15s ease-out;
+        transition: left 0.15s ease-out;
+    }
+
+    .sp-peoplepicker-topLevel {
+        height: auto;
+    }
+
+    /*Color Picker Customization*/
+    #divTileColorPicker > color-picker > div > div > input[type="text"] {
+        border: 1px solid #f1f1f1;
+    }
+
+    #divTextColorPicker > color-picker > div > div > input[type="text"] {
+        padding: 0 !important;
+        border: 1px solid #f1f1f1;
+    }
+
+    #divTextColorPicker > color-picker > div {
+        padding-left: 2px !important;
+    }
+
+    .close {
+        float: right;
+        margin-right: -60px;
+        font-size: 21px;
+        font-weight: bold;
+        line-height: 1;
+        color: #000;
+        text-shadow: 0 1px 0 #fff;
+        filter: alpha(opacity=20);
+        opacity: .2;
+    }
+
+    button.close {
+        -webkit-appearance: none;
+        padding: 0px;
+        margin-left: -31px;
+        cursor: pointer;
+        background: transparent;
+        border: 0;
+    }
+
+    button.close {
+        -webkit-appearance: none;
+        padding-left: -20px;
+        float: right;
+        cursor: pointer;
+        background: transparent;
+        border: 0;
+        margin-right: -56px;
+    }
+
+    .modal-content {
+        position: relative;
+        background-color: #fff;
+        border-top: 3.5px solid #F15D42;
+        border-radius: 0px;
+        outline: 0;
+        box-shadow: none;
+        margin: 0 auto;
+    }
+
+    element.style {
+        margin: 0 auto;
+    }
+
+    .filebutton {
+        border: none;
+    }
+
+    button.close {
+        margin-right: -60px;
+    }
+
+    * {
+        font-family: LatoRegular;
+    }
+
+    .shortdescriptionclass {
+        overflow: hidden;
+        width: 418px;
+        height: 116px;
+        resize: none;
+    }
+
+    .input-group-addon {
+        padding: 6px 6px;
+    }
+
+    .newtooltip {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px black;
+    }
+
+        .newtooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+            .newtooltip .tooltiptext::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                margin-left: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: black transparent transparent transparent;
+            }
+
+        .newtooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    button.close {
+        display: none;
+    }
+
+    .bootbox-modal-body {
+        padding: 40px 15px;
+        text-align: center;
+    }
+
+    .modal-footer {
+        padding: 1px 15px 55px 15px;
+        text-align: center;
+        border-top: 0px solid #e5e5e5;
+    }
+
+    .panelbordercolor {
+        background-color: #fff !important;
+    }
+
+    .bordernone {
+        border: none;
+    }
+
+    .settingtab {
+        font-size: 12px;
+        color: #c6c3c3;
+        padding-left: 15px;
+    }
+
+    .capitalletter {
+        text-transform: capitalize !important;
+    }
+
+    .nopadding {
+        padding: 0px;
+    }
+
+    .noborder {
+        border: none;
+    }
+
+    .marginbottomzero {
+        margin-bottom: 0px;
+    }
+
+    /* Vivek*/
+    #slider {
+        position: relative;
+        overflow: hidden;
+        margin: 0 auto 0 auto;
+        border-radius: 1px;
+        border: 1px solid #cecfd1;
+    }
+
+        #slider ul {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            height: 40px;
+            list-style: none;
+        }
+
+            #slider ul li {
+                position: relative;
+                display: block;
+                float: left;
+                margin: 0;
+                padding: 0;
+                width: 250px;
+                height: 40px;
+                background: #fff;
+                text-align: center;
+                line-height: 40px;
+            }
+
+    a.control_prev, a.control_next {
+        position: absolute;
+        top: 0%;
+        z-index: 999;
+        display: block;
+        padding: 5% 2%;
+        width: auto;
+        height: auto;
+        background: #e7e8e9;
+        color: #828386;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        /*opacity: 0.8;*/
+        cursor: pointer;
+    }
+
+        a.control_prev:hover, a.control_next:hover {
+            opacity: 1;
+            -webkit-transition: all 0.2s ease;
+        }
+
+    a.control_prev {
+        border-radius: 0 0 0 0;
+    }
+
+    a.control_next {
+        right: 0;
+        border-radius: 0 0 0 0;
+    }
+
+    .slider_option {
+        position: relative;
+        margin: 10px auto;
+        width: 160px;
+        font-size: 18px;
+    }
+
+    .slider-icon {
+        width: 20%;
+        height: 40px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .more-icon-list {
+        width: 30px;
+        height: 30px;
+        margin: 5px 5px 5px 5px;
+    }
+
+        .more-icon-list:hover {
+            cursor: pointer;
+            background-color: #f15d43;
+            border-radius: 6px;
+        }
+
+    .more-icon {
+        margin-top: 25px;
+        color: orangered;
+        font-size: smaller;
+        padding-left: 5px;
+    }
+
+        .more-icon:hover {
+            cursor: pointer;
+        }
+
+    .popup-close {
+        color: red;
+        float: right;
+    }
+
+        .popup-close:hover {
+            cursor: pointer;
+        }
+
+    .slider-icon:hover {
+        background-color: #f15d43;
+    }
+    /* Vivek*/
+    .color-picker-input {
+        width: 20px;
+    }
+    /*YOGI*/
+
+    .center-div {
+        position: absolute;
+        margin: auto;
+        top: 60px;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100px;
+        height: 100px;
+        background-color: #ccc;
+    }
+
+    /*.alert {
+            padding: 5px;
+        }*/
+
+    .alert-danger {
+        background-color: #F3745D;
+        color: white;
+        /*height: 20px;*/
+    }
+
+    /*YOGI*/
+
+    .imgdivcustm {
+        height: 320px;
+        background-color: #f3f3f4;
+        float: left;
+        width: 82%;
+        margin-left: 3%;
+        margin-top: 20px;
+        position: relative;
+    }
+
+    .imgtxt {
+        position: absolute;
+        top: 41%;
+        left: 34%;
+        color: #f15d42;
+        width: 34%;
+        text-decoration: underline;
+        overflow: hidden;
+    }
+
+    .shortdesc {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        resize: none;
+        border: 0px;
+        height: 27px;
+    }
+
+        .shortdesc:hover {
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+
+    .rightcustmdiv {
+        float: left;
+        width: 12%;
+        margin-top: 20px;
+        height: 320px;
+        position: relative;
+        padding-left: 0px;
+    }
+
+    .deletecontentcustm {
+        float: left;
+        padding: 1px 10px;
+        color: #999;
+        font-size: 0px;
+        cursor: pointer;
+        position: absolute;
+        bottom: 0px;
+    }
+
+    textarea#txtShortDescription:focus {
+        box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+    }
+
+    .prgress {
+        position: absolute;
+        top: 55%;
+        left: 29%;
+        width: 250px;
+        height: 1px;
+        -webkit-appearance: none;
+    }
+
+    progress::-webkit-progress-bar {
+        background-color: #ffffff;
+    }
+
+    progress::-webkit-progress-value {
+        background-color: #f3745d;
+    }
+
+    .nwlbl {
+        position: absolute;
+        top: 50%;
+        left: 21%;
+        color: #f15d42;
+        width: 51%;
+        padding-left: 13px;
+        overflow: hidden;
+    }
+    /*********/
+    @media (min-width: 320px) and (max-width: 480px){
+        #contentRequiredError {
+            margin-right: 53px;
+        }
+    }
+    </style>
+  
+   <div style="float:left;width:100%">
+                        <div style="float:left">
+                            <div style="height: 56px; width: 48px; margin-right: 5px; float:left;background-image: url(images/ReferencesforAllsmallTile.svg);background-size: 100% 100%;background-repeat: no-repeat;">
+                            </div>
+                            <div style="float:left;">
+                                <h3>Reference For All <span ng-if="vm.content.Title!=null">- {{content.Title}}</span></h3>
+                                <!--<h3 class="text-display-1" ng-if="vm.editcontent==false">{{vm.heading|translate}}</h3>
+                                <h3 class="text-display-1" ng-if="vm.editcontent==true">{{vm.heading|translate}} : {{vm.editContentTitle}}</h3>-->
+                            </div>
+                        </div>                     
+
+                        <div ng-show="vm.versionshow" style="float:right;margin-top: 30px">
+                            <div style="float:left;padding: 2px;">g:Version : di</div>
+                            <div style="float:left;">
+                                <input type="text" style="width: 60px;color: white;background-color:#F3745D;" id="txtVersionNo" ng-model="vm.content.VersionNo" value="1.0" maxlength="7" placeholder="1.0.3.5" required />
+                            </div>
+                            <!--<div style="float:left;padding: 2px 5px;"><img src="Images/ContentTabPencilIcon.svg" height="14" width="14" /></div>-->
+                        </div>
+     </div>
+                        <form name="basicInfo" id="addEditForm" style="width:100%;float:left">
+                        <div data-z="0.5" style="background-color: #fff;border-top: 2.5px solid #F15D42;">
+                        
+                            <di>
+
+                                <div id="divDetails">
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <div>
+                                                    <h3>Content Title</h3>
+                                                    <span>
+                                                        <i></i>
+                                                    </span>
+                                                    <span>
+                                                        <span ng-show="!vm.content.Title.length > 0" id="contentRequiredError">Content title is required</span>
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <div>
+                                                        <div>
+                                                            <input type="text" name="title" id="txtTitle" ng-model="vm.content.Title" maxlength="60" ng-trim="false"
+                                                                   placeholder="Content Title" required />
+                                                            <span>10</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="padding-top: 15px;">
+                                                <div>
+                                                    <h3 style="float:left">Short Description</h3>
+                                                    <span>
+                                                        <i></i>
+                                                    </span>
+                                                    <span>
+                                                        <span ng-show="!vm.content.ShortDescription.length > 0">Description required</span>
+                                                    </span>
+                                                </div>
+                                                <div >
+                                                    <div>
+                                                        <div >
+                                                            <textarea type="text" name="description" id="txtShortDescription" style="padding: 5px;" ng-keyup="vm.divHeight(event)" ng-model="vm.content.ShortDescription" maxlength="250" ng-trim="false"
+                                                                      placeholder="Short Description" required ></textarea>
+                                                            <span >75</span>   
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="col-md-5 col-sm-12 col-xs-12">
+                                            <div class="panel panel-default noborder" style="height: 240px;">
+                                                <div class="panel-heading clearfix">
+                                                    <h3 class="panel-title" style="float:left">{{'Thumbnail'|translate}}</h3>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="form-group" style="padding: 5px 0px 10px;">
+
+                                                        <div class="col-md-12 col-sm-12 form-group" style="margin-bottom: 5px; padding-left: 0px;">
+                                                            <div class="col-md-6 col-sm-6" style="padding-left: 0px;">
+                                                                <div class="radio-item">
+
+                                                                    <input type="radio" id="rdImageUpload" ng-model="vm.rdThumbnail" ng-click="togglechecked()" class="custmradio" ng-change="toggleThumbnail()" value="imageUpload" name="rdThumbnail" checked="checked" />
+                                                                    <label for="rdImageUpload"> {{'Choose an Image'|translate}}</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 col-sm-6" id="radiosecond" style="padding-left: 0px;">
+                                                                <div class="radio-item">
+
+                                                                    <input type="radio" id="rdImageCreate" ng-model="vm.rdThumbnail" ng-click="togglechecked()" class="custmradio" ng-change="toggleThumbnail()" value="thumbnailCreate" name="rdThumbnail" />
+                                                                    <label for="rdImageCreate"> {{'Create a Thumbnail'|translate}}</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div ng-show="!imageUpload" id="divThumbnailCreate" class="col-md-12 col-sm-12" style="padding-left: 0px;">
+                                                            <!-- TUMBNAIL SLIDER *VIVEK-->
+                                                            <div class="col-md-12 col-sm-12 form-group" style="margin-bottom: 10px;">
+                                                                <div class="row" style="float:left;margin-left:5px;cursor:pointer;">
+                                                                    <span>Select icon</span>
+                                                                </div><br />
+                                                                <div class="row">
+                                                                    <div class="col-md-12 col-sm-12">
+                                                                        <div id="slider" style="float:left;">
+                                                                            <a class="control_next"> > </a>
+                                                                            <a class="control_prev"> < </a>
+                                                                            <ul>
+                                                                                <li ng-repeat="img in vm.imageArray">
+                                                                                    <img ng-repeat="im in img" src="{{im}}" ng-click="vm.onImageClick(im)" class="slider-icon" />
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div class="more-icon" style="float:left;" data-toggle="modal" data-target="#myModal">More icons</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- END TUMBNAIL SLIDER *VIVEK-->
+                                                            <!--CANVAS *VIVEK-->
+                                                            <div class="col-md-12 col-sm-12 form-group" style="margin-bottom: 10px;">
+                                                                <canvas id="cvsTile" height="130" width="250" style="border:1px solid; border-color:#6c50a2; background-color:#6c50a2;font-family:LatoRegular;"></canvas>
+                                                            </div>
+                                                            <!--END CANVAS *VIVEK-->
+                                                            <!-- COLOR PICKER *VIVEK-->
+                                                            <div class="col-md-12 col-sm-12 form-group" style="margin-bottom: 10px;">
+                                                                <div class="row">
+                                                                    <div class="col-md-5"><span>Background Color  </span></div>
+                                                                    <div id="divTileColorPicker" class="col-md-7 col-sm-8 form-group" style="margin-left: -16px;">
+                                                                        <color-picker ng-model="tileColorPickerValue"
+                                                                                      options="tileColorPickerOptions"
+                                                                                      event-api="tileColorChangeApi"></color-picker>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <!--END COLOR PICKER *VIVEK-->
+                                                            <!-- MORE ICONS *VIVEK -->
+                                                            <div id="myModal" class="modal fade" role="dialog">
+                                                                <div class="modal-dialog">
+                                                                    <!-- Modal content-->
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="close popup-close" data-dismiss="modal">x</h4>
+                                                                        </div>
+                                                                        <div style="height:420px;overflow-y:scroll;width:100%">
+                                                                            <div ng-repeat="img in vm.customImg" style="border-bottom: 1px solid #ddd;margin-left: 20px;margin-right: 20px;">
+                                                                                <div class="modal-header">
+                                                                                    <p style="color:rgba(0, 114, 198, 0.47);font-size: 16px;">{{img.category}}</p>
+                                                                                </div>
+                                                                                <div class="modal-body" style="padding-top: 0px;">
+                                                                                    <div class="row">
+                                                                                        <img ng-repeat="im in img.icons" src="images/{{img.category}}/{{im}}" data-dismiss="modal" ng-click="vm.onImageClick('images/'+img.category+'/'+ im)" class="more-icon-list" style="padding: 4px;" />
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <div class="modal-footer">
+                                                                                <!-- footer -->
+                                                                                <div class="col-md-12 col-lg-12 col-xs-12">
+                                                                                    <div class="text-right" style="padding-right:15px">
+                                                                                        <button type="button" class="btn btn-default">
+                                                                                            {{'Apply'|translate}}
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <!-- END MORE ICONS *VIVEK -->
+                                                        </div>
+
+
+                                                        <div class="button col-md-12 col-sm-12 form-group nopadding drop-box" ngf-drop="dragThumbnail($files)"
+                                                             ngf-drag-over-class="'dragover'" ngf-multiple="false" ng-show="imageUpload" id="thumbnailfirstradio">
+                                                            <div ngf-select="dragThumbnail($files)" multiple="false" style="width:100%;text-align: center;">
+                                                                <h4><span style="color: #a5a8b0;">Drag image here to upload or</span></h4>
+                                                                <label for="imgThumbnail" class="prats" id="lblforselfiles">Select files from Computer</label>
+                                                                <div id="divTile" class="img-responsive center-div" style="height:140px;width:235px;background-color:#E0E0E0;float:left;background-image: url({{vm.ThumbnailIR}});background-repeat: no-repeat;background-size: 100% 100%;">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+
+
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <div>
+                                                    <h3>Long Description</h3>
+                                                </div>
+
+                                                <div>
+                                                    <div>
+                                                        <div>
+                                                            <textarea id="txtLongDescription" placeholder="Long Description" style="min-height:100px;background-color:#fff"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-md-12 col-lg-12">
+
+                                        <div class="col-md-12 col-sm-12 col-xs-12"> -->
+
+                                            <!-- <div class="col-md-6 col-sm-6 col-xs-6">
+                                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                                    <div class="panel panel-default noborder">
+                                                        <div class="panel-heading clearfix">
+                                                            <h3 class="panel-title" style="float:left">{{'Category'|translate}}</h3>
+
+
+                                                            <span class="required-asterisk">
+                                                                <i class="fa fa-asterisk"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div>
+                                                                <select class="form-control" name="ddMainCategory" data-ng-model="vm.content.MainCategoryId"
+                                                                        data-ng-options="lp.Id as lp.Title | translate for lp in vm.MainCategories.results" ng-change="vm.getSubCategories()">
+                                                                    <option value="" translate>ChooseContentCategory</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+
+                                            <!-- <div class="col-md-6 col-sm-6 col-xs-6">
+                                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                                    <div class="panel panel-default noborder bottomborder">
+                                                        <div class="panel-heading clearfix">
+                                                            <h3 class="panel-title" style="float:left">{{'SubCategory'|translate}}</h3>
+
+
+                                                            <span class="required-asterisk">
+                                                                <i class="fa fa-asterisk"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div>
+                                                                <input type="text" name="title" id="txtTitle" maxlength="60" ng-trim="false" placeholder="Sub Category" class="form-control" ng-model="vm.content.SubCategoryName" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                        <!-- </div>
+                                    </div> -->
+
+                                    <!-- <div class="col-md-12 col-lg-12 col-xs-12">
+                                        <div class="text-right" style="padding-right:15px">
+                                            <button type="button" class="btn btn-default" ng-disabled="!vm.content.Title.length > 0 || !vm.content.ShortDescription.length > 0 || !vm.content.MainCategoryId > 0 || !vm.content.SubCategoryName.length > 0 "
+                                                    data-ng-click="vm.saveCurrentCourse()">
+                                                {{'Save and Continue'|translate}}&nbsp;&nbsp;<img src="Images/next arrow.svg" style="margin-top: -1px;margin-left: 1px;" height="13" width="13" />
+                                            </button>
+                                        </div>
+                                    </div> -->
+                                </div>
+
+                                <!-- <div id="divCourseContents" class="tab-pane">
+                                    <div class="col-lg-12" style="background-color:#eee;border-bottom: 2px solid #f3745d;">
+                                        <div class="form-group">
+                                            <div class="control-label col-sm-12" style="font-size:12px;padding-right: 5px;font-weight: 700">
+                                                <div style="float:right">
+                                                    <div style="float:left;margin-top: 8px;" class="ng-binding">Total Estimated Time :</div>
+                                                    <div style="float:left;width: 30px;">
+                                                        <input type="text" ng-keypress="isNumber($event)" name="timehr" ng-model="vm.timehr" maxlength="2" placeholder="00" class="form-control custmtext">
+                                                    </div>
+                                                    <div style="float:left;margin-top: 8px;"><span class="ng-binding">Hrs</span></div>
+                                                    <div style="float:left;width: 30px;">
+                                                        <input type="text" name="timemin" ng-keypress="isNumber1($event,vm.timemin)" ng-model="vm.timemin" maxlength="2" placeholder="00" class="form-control custmtext">
+                                                    </div>
+                                                    <div style="float:left;margin-top: 8px;"><span class="ng-binding">Min</span></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div ng-if="vm.content.IsActiveIR == true">
+                                            <label style="float:right;color:#F15D42;margin-top: -22px;"> *{{'To make changes in module you will have to unpublish content, please go to publish tab' | translate}}</label>
+                                        </div>
+                                        <ul class="sort" id="moduleSortList" style="padding: 0px 0px;">
+                                            <li class="ui-state-default li-moduleList" id="{{module.SequenceNumber}}" ng-init="parentIndex = $index" ng-repeat="module in vm.newModuleCollection"
+                                                style="border-radius: 0px;cursor:default;border-bottom: 2px solid #f15d42" on-last-repeat>
+                                                <div class="panel-heading clearfix" style="padding:10px">
+                                                    <h3 class="panel-title">
+                                                        <div class="moduleNo handler" data-toggle="tooltip" title="Drag and sort module sequence"
+                                                             style="cursor:move" ng-class="module.IsSaved == true ? 'saved' : 'unsaved'">
+                                                            <span>{{$index + 1}}</span>
+                                                        </div>
+                                                        <div style="float:left;width:90%">
+                                                            <div class="form-group" style="margin-bottom:40px">
+                                                                <span class="control-label col-sm-2" ng-show="!module.isEdit" style="margin-top: 5px;">{{module.Title}}</span>
+                                                                <input class="control-label col-sm-2" ng-model="module.Title" ng-keypress="disable($event)" ng-show="module.isEdit" style="margin-top: 5px;" />
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <div class="control-label col-sm-12" style="font-size: 12px;padding-left: 0px;font-weight: 700;padding-right: 5px;">
+                                                                            <div>
+                                                                                <div style="float:left;margin-top: 8px;margin-right:10px" title="Edit">
+                                                                                    <img src="images/ContentTabPencilIcon.svg" height="14" width="14" ng-click="module.isEdit=!module.isEdit" />
+                                                                                </div>
+                                                                                <div style="float:left;margin-top: 8px;" class="ng-binding">Estimated Time :</div>
+                                                                                <div style="float:left;width: 13%;">
+                                                                                    <input type="text" name="title" maxlength="2" ng-keypress="isNumber($event)" ng-model="module.hours" placeholder="00" class="form-control custmtext1" required="">
+                                                                                </div>
+                                                                                <div style="float:left;margin-top: 8px;" class="ng-binding">Hrs</div>
+                                                                                <div style="float:left;width: 13%;">
+                                                                                    <input type="text" name="title" maxlength="2" ng-keypress="isNumber($event)" ng-model="module.minutes" placeholder="00" class="form-control custmtext1" required="">
+                                                                                </div>
+                                                                                <div style="float:left;margin-top: 8px;" class="ng-binding">Min</div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <!--<img ng-attr-id="{{ parentIndex+'-delete'}}"  src="Images/delete.svg" style="height: 20px;width: 20px;  float: right;" ng-click="vm.deleteModule(module,parentIndex)"/>-->
+                                                                    <i ng-attr-id="{{ parentIndex+'-delete'}}" ng-click="vm.deleteModule(module,parentIndex)" class="fa fa-trash-o" style="float: right;font-size: 20px;color: #999;"></i>
+
+                                                                    <img ng-attr-id="{{ parentIndex+'-expand'}}" data-toggle="collapse" data-target="#{{parentIndex}}-content" src="Images/menu-up.svg" style="margin-right:10px; height: 20px;width: 20px;float: right;" ng-click="vm.myFunction(parentIndex)" />
+                                                                </div>
+                                                                <!--<span class="input-group-addon textCharCounter">{{60 - module.Title.length}}</span>-->
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <span class="control-label col-sm-2" style="margin-top: 5px;">{{'About Module'|translate}}</span>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" name="description" ng-model="module.Description" style="border-bottom: 1px solid #ccc;width: 81%;" placeholder="{{'Click here to enter description'|translate}}" ng-change="vm.moduleEdited(module)"
+                                                                           class="form-control" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="divDeleteModule" data-toggle="tooltip" title="Delete Module" ng-click="vm.deleteModule(module,parentIndex)"
+                                                             ng-show="module.IsSaved && vm.content.IsActiveIR == false">
+                                                            <i class="fa fa-trash-o" style="font-size:20px;"></i>
+                                                        </div>
+                                                        <div class="expandCollapse" data-toggle="tooltip" title="View Topics" id="moduleView_{{module.SequenceNumber}}"
+                                                             ng-click="vm.showHideTopicPanel(module,$event)" ng-show="module.IsSaved">
+                                                            <i class="fa fa-angle-down"></i>
+                                                        </div>
+                                                    </h3>
+
+                                                </div>
+
+                                                <div class="panel-body collapse in" style="min-height:40px;" ng-attr-id="{{ parentIndex+'-content'}}">
+                                                    <div class="col-lg-12" style="padding:0px 114px 20px">
+                                                        <ul id="" style="padding: 13px 0px;">
+                                                            <li class="ui-state-default" ng-init="index = $index" ng-repeat="topic in module.topicCollection">
+                                                                <div class="panel-heading clearfix row">
+                                                                    <h3 class="panel-title">
+                                                                        <div class="moduleNo">
+                                                                            <span>{{topic.SequenceNumber + 1}}</span>
+                                                                        </div>
+                                                                        <div style="float:left;width:90%">
+
+                                                                            <div style="float:left;width:90%">
+
+                                                                                <div class="form-group">
+                                                                                    <span class="control-label col-sm-2" style="margin-top:10px">{{'Step Title :'|translate}}</span>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text" name="txtTopicTitle" id="txtTopicTitle"
+                                                                                               maxlength="80" ng-trim="false"
+                                                                                               ng-model="topic.TopicTitle"
+                                                                                               ng-change="vm.showHideDiv(topic.TopicTitle,parentIndex,topic.date)"
+                                                                                               style="border-bottom: 1px solid #ccc;"
+                                                                                               placeholder="{{'Click here to Add Step'|translate}}" class="form-control" required />
+                                                                                    </div>
+                                                                                    <br />
+                                                                                    <!--<span class="input-group-addon textCharCounter">{{80 - topic.Name.length}}</span>-->
+                                                                                </div>
+                                                                                <div class="form-group" style="margin-top:5px">
+                                                                                    <span class="control-label col-sm-2" style="margin-top:10px;padding-left:0px">{{'Description :'|translate}}</span>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text" style="border-bottom: 1px solid #ccc;" name="topicDescription" ng-model="topic.TopicDescription"
+                                                                                               placeholder="{{'Click here to Add/edit description'|translate}} " class="form-control" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="imgdivcustm" ng-attr-id="{{ parentIndex+'-hover-' + topic.date }}">
+                                                                            <div ng-attr-id="{{ parentIndex+'-uploadNewDoc-' + topic.date }}" hidden>
+                                                                                <img src="images/Patch 1.svg" style="background-repeat: no-repeat; width:100%; height:320px;border-right:1px solid #f3745d" />
+                                                                            </div>
+                                                                            <div ng-attr-id="{{ parentIndex+'-uploadTopic-' + topic.date }}">
+                                                                                <div>
+                                                                                    <div class="button" ngf-select="uploadFiles($files,{{topic}},topic.date,parentIndex,index)" multiple="false">
+                                                                                        <div ng-attr-id="{{ parentIndex+'-draggable-' + topic.date }}" ngf-drop="uploadFiles($files,{{topic}},topic.date,parentIndex,index)" class="drop-box"
+                                                                                             ngf-drag-over-class="'dragover'" ngf-multiple="false">
+                                                                                            <img src="images/Patch 2.svg" style="background-repeat: no-repeat; width:100%; height:320px;border-right:1px solid #f3745d" />
+                                                                                            <p style="width: 50%;font-size: 15px;left: 23% !important;text-align: center;" for="file_input_id" class="imgtxt file-drop-zone">Select files from directory</p>
+                                                                                            <p style="font-size: 14px;text-align:center;" class="nwlbl" ng-attr-id="{{ parentIndex+'-fileNameSize-' + topic.date }}">{{vm.TopicFileName}}{{vm.Topicfilesize}}</p>
+                                                                                            <progress hidden class="prgress" ng-attr-id="{{ parentIndex+'-progressBar-' + topic.date }}" value="0" max="100"></progress>
+                                                                                            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div hidden ng-attr-id="{{ parentIndex+'-div-documentViewer-' + topic.date }}" class="documentFrame tab-pane  active" style="width:100%; height:320px;min-height:320px">
+                                                                                <!--<div id="documentViewer" style="text-align: center;width: 100%;height:100%;"></div>-->
+                                                                            </div>
+                                                                            <div ng-attr-id="{{ parentIndex+'-uploadLink-' + topic.date }}" hidden>
+                                                                                <img src="images/Patch 3.svg" style="background-repeat: no-repeat; width:100%; height:320px;border-right:1px solid #f3745d" />
+                                                                                <label for="file_input_id" class="linkarea"><textarea style="height:100%;width:100%;resize:none" ng-model="topic.TopicFileUrl.Url" ng-keyup="vm.savelink(topic,parentIndex,topic.date)"></textarea></label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </h3>
+
+
+                                                                    <div class="col-sm-4 rightcustmdiv" ng-attr-id="{{ parentIndex+'-option-' + topic.date }}">
+                                                                        <div ng-attr-id="{{ parentIndex+'-btnNew-' + topic.date }}" class="smalldiv" data-ng-click="vm.showHideTopicDiv('-uploadNewDoc-',parentIndex,topic.date,index)"><img src="Images/ContentTabIcon.svg" height="14" width="14" style="margin: 10px 15px;">New</div>
+                                                                        <div ng-attr-id="{{ parentIndex+'-btnUpload-' + topic.date }}" class="smalldiv" data-ng-click="vm.showHideTopicDiv('-uploadTopic-',parentIndex,topic.date,index)"><img src="Images/ContentTabUploadIcon.svg" height="14" width="14" style="margin: 10px 15px;">Upload</div>
+                                                                        <div ng-attr-id="{{ parentIndex+'-btnLink-' + topic.date }}" class="smalldiv" data-ng-click="vm.showHideTopicDiv('-uploadLink-',parentIndex,topic.date,index)"><img src="Images/ContentTabLink.svg" height="14" width="14" style="margin: 10px 15px;">Link</div>
+                                                                        <div class="deletecontentcustm" data-toggle="tooltip" title="Delete Step" ng-click="vm.deleteTopic(topic,module,$event,index,parentIndex)">
+                                                                            <i class="fa fa-trash-o" style="font-size:20px;"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+
+                                                        <button ng-attr-id="{{ parentIndex+'-addStep-' }}" class="btn btn-default custmbtn" style="padding:0px"
+                                                                ng-disabled="module.IsSaved == false || vm.content.IsActiveIR == true ? true : false"
+                                                                ng-click="vm.addNewTopic(module,parentIndex)">
+                                                            {{'Add Step' | translate}}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+
+                                    <div class="text-right">
+                                        <div>
+                                            <button class="btn btn-default" style="float:left;padding-left:5px" ng-click="vm.addNewModule()">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <button type="button" data-ng-click="vm.showHideTab('divDetails', 'liTabDetailsHeader')"
+                                                value="Back" class="btn btn-default">
+                                            <img src="Images/next arrow.svg" style="margin-top: -1px;-ms-transform: rotate(180deg);-webkit-transform: rotate(180deg);transform: rotate(180deg);" height="13" width="13" />
+                                            &nbsp;&nbsp;{{'BackButton' | translate}}
+                                        </button>
+                                        <!--<button type="button" data-ng-click="vm.saveModules()"
+                                                value="Save Modules" class="btn btn-default" ng-disabled="vm.isSaveButtonDisabled || vm.content.IsActiveIR == true">
+                                            {{'Save' | translate}}
+                                        </button>-->
+                                        <button type="button" class="btn btn-default" ng-click="vm.checkModule()">
+                                            <!--data-ng-click="vm.showHideTab('divAudience', 'liTabPropertiesHeader')">-->
+                                            {{'NEXT' | translate}}&nbsp;&nbsp;<img src="Images/next arrow.svg" style="margin-top: -1px;margin-left: 1px;" height="13" width="13" />
+                                        </button>
+                                    </div>
+                                </div> -->
+
+                                <!-- <div id="divAudience" class="tab-pane">
+                                    <div class="col-lg-12" style="padding: 15px;">
+                                        <div class="col-lg-3 participantheadertile">
+                                            <div class="col-lg-1" style="margin-top: 2%;">
+                                                <img src="Images/ParticipantTabManagerBold.svg" height="14" width="14">
+                                            </div>
+                                            <div class="col-lg-10">
+                                                <h5 style="margin-bottom: 5px;"><b>Manager</b></h5>
+                                                <span>Manager can edit playbook and assign playbook</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 participantheadertile">
+                                            <div class="col-lg-1" style="margin-top: 2%;">
+                                                <img src="Images/ParticipantTabAuthorBold.svg" height="14" width="14">
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <h5 style="margin-bottom: 5px;"><b>Author</b></h5>
+                                                <span>Author are orignal content creators</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div id="div-report-{{$index + 1}}" style="display:block;width:100%;float:left">
+                                            <md-toolbar class="md-table-toolbar alternate" style="border:none;background-color: #fff;margin-bottom:12px;">
+                                                <div class="md-toolbar-tools" style="padding:0;">
+                                                    <div style="width:65%;">
+                                                        <div class="col-lg-12">
+                                                            <button type="button" ng-click="vm.addgroups()" class="btn btn-default" style="min-width: 20px !important;width: 32px;">+</button>
+                                                            <span style="font-size: 15px;">Add User</span>
+                                                        </div>
+                                                    </div>
+                                                    <div style="width:35%">
+                                                        <input type="text" ng-model="filter.search" ng-change="vm.search(vm.page,this)" placeholder="Search"
+                                                               class="searchBox" aria-invalid="false" style="float:right;padding-left: 5px;margin-right: 7px;height: 25px;width:50%;font-size:12px;margin-top: 0px;border: 1px solid #ccc;">
+                                                    </div>
+                                                </div>
+                                            </md-toolbar>
+
+                                            <md-table-container>
+                                                <table md-table>
+                                                    <thead md-head md-order="reportTab.query.order" md-on-reorder="logOrder">
+                                                        <tr md-row>
+                                                            <th md-cell>
+                                                                <img src="Images/participantTabName.svg" height="14" width="14">
+                                                                <span style="margin-left: 10px;">{{'Name' | translate}}</span>
+                                                            </th>
+                                                            <th md-cell>
+                                                                <img src="Images/ParticipantTabManager.svg" height="14" width="14">
+                                                                <span style="margin-left: 10px;">{{'Manager' | translate}}</span>
+                                                            </th>
+                                                            <th md-cell>
+                                                                <img src="Images/ParticipantTabAuthor.svg" height="14" width="14">
+                                                                <span style="margin-left: 10px;">{{'Author' | translate}}</span>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody md-body>
+                                                        <tr md-row md-select="userItem" md-on-select="logItem"
+                                                            class="userReportRows" on-last-repeat
+                                                            md-auto-select="vm.autoselect"
+                                                            ng-repeat="person in vm.finalarray| filter: filter.search| orderBy:  vm.orderby | limitTo: vm.limit : (vm.page -1) * vm.limit">
+                                                            <td md-cell style="width:25%;color:black">{{person.Name}}</td>
+                                                            <td class="paddingleft" md-cell>
+                                                                <label class="md-checkbox  has-success">
+                                                                    <input type="checkbox" id="c{{person.Name}}" class="md-check checkbox-custom"
+                                                                           ng-model="person.IsContentManager" ng-checked="person.IsContentManager" ng-change="vm.checkManagerCollection(person.IsContentManager)">
+                                                                    <label class="checkbox-custom-label" for="c{{person.Name}}" style="color:#999;font-size:14px">
+                                                                        <span class="inc"></span>
+                                                                        <span class="check"></span>
+                                                                        <span class="box"></span>
+                                                                    </label>
+                                                                </label>
+                                                            </td>
+                                                            <td class="paddingleft" md-cell>
+                                                                <label class="md-checkbox  has-success">
+                                                                    <input type="checkbox" id="{{person.Name}}" class="md-check checkbox-custom"
+                                                                           ng-model="person.IsAuthor" ng-checked="person.IsAuthor" ng-change="vm.checkAuthorCollection(person.IsAuthor)">
+                                                                    <label class="checkbox-custom-label" for="{{person.Name}}" style="color:#999;font-size:14px">
+                                                                        <span class="inc"></span>
+                                                                        <span class="check"></span>
+                                                                        <span class="box"></span>
+                                                                    </label>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </md-table-container>
+                                            <md-table-pagination ng-if="vm.finalarray.length > vm.limit" md-limit="vm.limit"
+                                                                 md-page="vm.page"
+                                                                 md-total="{{vm.finalarray.length}}"
+                                                                 md-boundary-links=true
+                                                                 md-on-paginate="logPagination" md-page-select></md-table-pagination>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-sm-12 col-xs-12" style="padding-top: 15px;">
+                                        <div class="text-right nopadding">
+                                            <button type="button" class="btn btn-default"
+                                                    data-ng-click="vm.showHideTab('divCourseContents', 'liTabCourseContentsHeader')">
+                                                <img src="Images/next arrow.svg"
+                                                     style="margin-top: -1px;-ms-transform: rotate(180deg);-webkit-transform: rotate(180deg);transform: rotate(180deg);" height="13" width="13" />
+                                                &nbsp;&nbsp;{{'BackButton' | translate}}
+                                            </button>
+                                            <button type="button" class="btn btn-default" ng-disabled="vm.contentManagerCNT == 0"
+                                                    data-ng-click="vm.saveParticipants(true)">
+                                                {{'Save and Continue'|translate}}&nbsp;&nbsp;<img src="Images/next arrow.svg" style="margin-top: -1px;margin-left: 1px;" height="13" width="13" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                                <!-- <div id="divProperties" class="tab-pane padding-top">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <div class="panel panel-default noborder">
+                                                <div class="form-horizontal">
+                                                    <div class="form-group marginbottomzero">
+                                                        <span class="control-label col-sm-2">{{'Tags:'|translate}}</span>
+                                                        <div class="col-sm-12 nopadding bottomborder" style="height:auto">
+                                                            <div class="col-sm-3 nopadding">
+                                                                <input id="tagid" style="background-color:transparent" ng-keyup="vm.addTags($event,vm.k)" placeholder="Add Tag and Press Enter" ng-model="vm.k" class="form-control" type="text" />
+                                                                <div ng-show="vm.tagflag" class="alert nopadding alert-danger" id="existalert_tag">
+                                                                    <button type="button" class="close" data-dismiss="alert">x</button>
+                                                                    <span style="margin-left: 7px;">This tag is already exist.</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-9 nopadding" style="padding-top: 8px;margin-bottom: -18px;">
+                                                                <div class="list-group">
+                                                                    <span ng-repeat="tags in vm.selectedTags" style="padding-left: 5px;">
+                                                                        <span class="label label-danger" style="background-color:#F15D42!important">
+                                                                            {{tags.Title}}
+                                                                            &nbsp;<i class="fa fa-times" ng-click="vm.removeTags(tags)"></i>
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group marginbottomzero">
+                                                        <span class="control-label col-sm-2">{{'Department:'|translate}}</span>
+                                                        <div class="col-sm-12 nopadding bottomborder" style="height:auto">
+                                                            <div class="col-sm-3 nopadding ">
+                                                                <input id="deptid" style="background-color:transparent" ng-keyup="vm.addDept($event,vm.d)" placeholder="Add Department and Press Enter" ng-model="vm.d" class="form-control" type="text" />
+                                                                <div ng-show="vm.deptflag" class="alert nopadding alert-danger" id="existalert_dept">
+                                                                    <button type="button" class="close" data-dismiss="alert">x</button>
+                                                                    <span style="margin-left: 7px;"> This department is already exist.</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-9 nopadding" style="padding-top: 8px;margin-bottom: -18px;">
+                                                                <div class="list-group">
+                                                                    <span ng-repeat="department in vm.selectedDepartments" style="padding-left: 5px;">
+                                                                        <span class="label label-danger" style="background-color:#F15D42!important">
+                                                                            {{department.Title}}
+                                                                            &nbsp;<i class="fa fa-times" ng-click="vm.removeDepartment(department)"></i>
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group marginbottomzero">
+                                                        <span class="control-label col-sm-2">{{'Role:'|translate}}</span>
+                                                        <div class="col-sm-12 nopadding bottomborder" style="height:auto">
+                                                            <div class="col-sm-3 nopadding ">
+                                                                <input id="roleid" style="background-color:transparent" ng-keyup="vm.addRole($event,vm.r)" placeholder="Add Role and Press Enter" ng-model="vm.r" class="form-control" type="text" />
+                                                                <div ng-show="vm.roleflag" class="alert nopadding alert-danger" id="existalert_role">
+                                                                    <button type="button" class="close" data-dismiss="alert">x</button>
+                                                                    <span style="margin-left: 7px;"> This role is already exist.</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-9 nopadding" style="padding-top: 8px;margin-bottom: -18px;">
+                                                                <div class="list-group">
+                                                                    <span ng-repeat="role in vm.selectedRoles" style="padding-left: 5px;">
+                                                                        <span class="label label-danger" style="background-color:#F15D42!important">
+                                                                            {{role.Title}}
+                                                                            &nbsp;<i class="fa fa-times" ng-click="vm.removeRole(role)"></i>
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group marginbottomzero">
+                                                        <span class="control-label col-sm-2">{{'Project:'|translate}}</span>
+                                                        <div class="col-sm-12 nopadding bottomborder" style="height:auto">
+                                                            <div class="col-sm-3 nopadding ">
+                                                                <input id="projectid" style="background-color:transparent" ng-keyup="vm.addProjectKeyword($event,vm.p)" placeholder="Add Project and Press Enter" ng-model="vm.p" class="form-control" type="text" />
+                                                                <div ng-show="vm.projectflag" class="alert nopadding alert-danger" id="existalert_project">
+                                                                    <button type="button" class="close" data-dismiss="alert">x</button>
+                                                                    <span style="margin-left: 7px;"> This project is already exist.</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-9 nopadding" style="padding-top: 8px;margin-bottom: -18px;">
+                                                                <div class="list-group">
+                                                                    <span ng-repeat="project in vm.selectedProjects" style="padding-left: 5px;">
+                                                                        <span class="label label-danger" style="background-color:#F15D42!important">
+                                                                            {{project.Title}}
+                                                                            &nbsp;<i class="fa fa-times" ng-click="vm.removeProject(project)"></i>
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                                        <div class="text-right" style="padding-right:15px">
+                                            <button type="button" data-ng-click="vm.showHideTab('divAudience', 'liTabAudienceHeader')"
+                                                    value="Back" class="btn btn-default">
+                                                <img src="Images/next arrow.svg" style="margin-top: -1px;-ms-transform: rotate(180deg);-webkit-transform: rotate(180deg);transform: rotate(180deg);" height="13" width="13" />
+                                                &nbsp;&nbsp;{{'BackButton'| translate}}
+                                            </button>
+                                            <button class="btn btn-default" ng-click="vm.saveProperties()">
+                                                {{'Save and Continue' | translate}}&nbsp;&nbsp;<img src="Images/next arrow.svg" style="margin-top: -1px;margin-left: 1px;" height="13" width="13" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                                <!-- <div id="divSettings" class="tab-pane padding-top">
+                                    <div class="col-md-12">
+
+                                        <div class="panel panel-default bordernone">
+                                            <div class="panel-heading clearfix panelbordercolor">
+                                                <h3 style="float:left" class="panel-title">
+                                                    {{'Make this content downloadable' | translate}}
+                                                    <span class="settingtab">{{'participants can download content on their devices' | translate}}</span>
+                                                </h3>
+                                                <div style="float:right;margin:2px" class="switch">
+                                                    <input id="rdDownloadYes" class="switch-input" type="radio" name="downloadable" ng-click="vm.isContentDownloadable(true)"
+                                                           ng-checked="vm.content.IsContentDownloadable">
+                                                    <label for="rdDownloadYes" class="switch-label switch-label-off" translate>YES</label>
+                                                    <input id="rdDownloadNo" class="switch-input" type="radio" name="downloadable" ng-click="vm.isContentDownloadable(false)"
+                                                           ng-checked="!vm.content.IsContentDownloadable">
+                                                    <label for="rdDownloadNo" class="switch-label switch-label-on" translate>NO</label>
+                                                    <span class="switch-selection"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default bordernone" ng-disabled="vm.IsCourseLoaded == false ? true : false">
+                                            <div class="panel-heading clearfix panelbordercolor">
+                                                <h3 style="float:left" class="panel-title">
+                                                    {{'Notify on completion of content' |translate}}
+                                                    <span class="settingtab">{{'Notification send to participants upon successful completion of assigned content' | translate}}</span>
+                                                </h3>
+                                                <div style="float:right;margin:2px" class="switch">
+                                                    <input id="rdNotifyYes" class="switch-input" type="radio" name="optradio" ng-click="vm.isNotifyOnComplete(true)"
+                                                           ng-checked="vm.content.IsNotifyOnComplete">
+                                                    <label for="rdNotifyYes" class="switch-label switch-label-off" translate>YES</label>
+
+                                                    <input id="rdNotifyNo" class="switch-input" type="radio" name="optradio" ng-click="vm.isNotifyOnComplete(false)"
+                                                           ng-checked="!vm.content.IsNotifyOnComplete">
+                                                    <label for="rdNotifyNo" class="switch-label switch-label-on" translate>NO</label>
+                                                    <span class="switch-selection"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-hide="true" class="panel panel-default bordernone">
+                                            <div class="panel-heading clearfix panelbordercolor">
+                                                <h3 style="float:left" class="panel-title">
+                                                    {{'Allow User Rating ' | translate}}
+                                                    <span class="settingtab">{{'Allow User Rating ShortDescription' | translate}}</span>
+                                                </h3>
+                                                <div style="float:right;margin:2px" class="switch">
+                                                    <input id="rdRatingYes" class="switch-input" type="radio" name="ratingradio" ng-click="vm.isAllowRating(true)"
+                                                           ng-checked="vm.content.IsAllowRating">
+                                                    <label for="rdRatingYes" class="switch-label switch-label-off" translate>YES</label>
+                                                    <input id="rdRatingNo" class="switch-input" type="radio" name="ratingradio" ng-click="vm.isAllowRating(false)"
+                                                           ng-checked="!vm.content.IsAllowRating">
+                                                    <label for="rdRatingNo" class="switch-label switch-label-on" translate>NO</label>
+                                                    <span class="switch-selection"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default bordernone">
+                                            <div class="panel-heading clearfix panelbordercolor">
+                                                <h3 style="float:left" class="panel-title">
+                                                    Allow User Reviews and Rating
+                                                    <span class="settingtab">{{'Allow User Review ShortDescription' | translate}}</span>
+                                                </h3>
+                                                <div style="float:right;margin:2px" class="switch">
+                                                    <input id="rdReviewsYes" class="switch-input" type="radio" name="Reviewsradio" ng-click="vm.isAllowReviews(true)"
+                                                           ng-checked="vm.content.IsAllowReviews">
+                                                    <label for="rdReviewsYes" class="switch-label switch-label-off" translate>YES</label>
+                                                    <input id="rdReviewsNo" class="switch-input" type="radio" name="Reviewsradio" ng-click="vm.isAllowReviews(false)"
+                                                           ng-checked="!vm.content.IsAllowReviews">
+                                                    <label for="rdReviewsNo" class="switch-label switch-label-on" translate>NO</label>
+                                                    <span class="switch-selection"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-hide="true" class="panel panel-default" ng-show="vm.content.IsCheckListRequired">
+                                            <div class="panel-heading clearfix">
+                                                <table>
+                                                    <tr ng-repeat="item in vm.CheckList">
+                                                        <td>
+                                                            {{item.Title}}
+                                                        </td>
+                                                        <td style="padding-left: 5px;">
+                                                            <i class="fa fa-times removeItem" ng-click="vm.removeChecklistItem(item)" role="button" tabindex="0"></i>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <input type="text" placeholder="Add checklist item" ng-model="vm.ChecklistTitle" style="width:80%;margin-top: 8px;margin-right: 5px;" />
+                                                <a class="btn btn-default" ng-click="vm.addChecklistItem()">Add</a>
+                                            </div>
+                                        </div>
+                                        <div ng-hide="true" class="panel panel-default" ng-disabled="vm.IsCourseLoaded == false ? true : false">
+                                            <div class="panel-heading clearfix">
+                                                <h3 style="float:left" class="panel-title">{{'Mark content as private?' | translate}}</h3>
+                                                <div style="float:right;margin:2px" class="switch">
+                                                    <input id="rdPrivateYes" type="radio" class="switch-input" name="private" ng-click="vm.IsPrivate(true)"
+                                                           ng-checked="vm.content.IsPrivate">
+                                                    <label for="rdPrivateYes" class="switch-label switch-label-off" translate>YES</label>
+                                                    <input id="rdPrivateNo" type="radio" class="switch-input" name="private" ng-click="vm.IsPrivate(false)"
+                                                           ng-checked="!vm.content.IsPrivate">
+                                                    <label for="rdPrivateNo" class="switch-label switch-label-on" translate>NO</label>
+                                                    <span class="switch-selection"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--For Archive and Delete Button-->
+                                        <div ng-hide="true" class="panel panel-default" ng-disabled="vm.IsCourseLoaded == false ? true : false">
+                                            <div class="panel-heading clearfix">
+                                                <h3 style="float:left" class="panel-title">{{'Archive this content?' | translate}}</h3>
+                                                <div style="float:right;margin:2px" class="switch">
+                                                    <input id="rdArchiveYes" type="radio" class="switch-input" name="archive" ng-click="vm.IsArchive(true)"
+                                                           ng-checked="vm.content.IsArchive">
+                                                    <label for="rdArchiveYes" class="switch-label switch-label-off" translate>YES</label>
+                                                    <input id="rdArchiveNo" type="radio" class="switch-input" name="archive" ng-click="vm.IsArchive(false)"
+                                                           ng-checked="!vm.content.IsArchive">
+                                                    <label for="rdArchiveNo" class="switch-label switch-label-on" translate>NO</label>
+                                                    <span class="switch-selection"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div ng-hide="true" class="panel panel-default" ng-disabled="vm.IsCourseLoaded == false ? true : false">
+                                            <div class="panel-heading clearfix">
+                                                <h3 style="float:left" class="panel-title">{{'Delete this content?' | translate}}</h3>
+                                                <div style="float:right;margin:2px" class="delbutton">
+                                                    <button type="button" value="Delete" style="width:120px;" class="btn btn-default" ng-click="vm.deleteContent()" translate>
+                                                        <i class="fa fa-trash-o" style="font-size:15px;"></i>
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-2 col-sm-2 col-xs-2">
+                                        <div class="text-left">
+                                            <button type="button" ng-click="vm.deletePlaybook()" value="Delete" class="btn btn-default">
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-10 col-sm-10 col-xs-10">
+                                        <div class="text-right">
+                                            <button type="button" data-ng-click="vm.BackSetting()" value="Back" class="btn btn-default" style="border: 1px solid #F15D42;">
+                                                <img src="Images/next arrow.svg" style="margin-top: -1px;-ms-transform: rotate(180deg);-webkit-transform: rotate(180deg);transform: rotate(180deg);" height="13" width="13" />
+                                                &nbsp;&nbsp;{{'BackButton' | translate}}
+                                            </button>
+                                            <button class="btn btn-default custmbtnPub" ng-show="vm.publishFlag" data-toggle="modal" data-target="#publishModal" type="button" value="Publish">
+                                                <img src="Images/PublishIcon.svg" height="14" width="14" style="vertical-align: initial;">
+                                                Publish
+                                            </button>
+                                            <button class="btn btn-default" ng-hide="vm.publishFlag" ng-click="vm.Unpublish()" type="button" value="Unpublish">
+                                                &nbsp;&nbsp;Unpublish
+                                            </button>
+                                        </div>
+                                        <!--/////////Publish Modal Start/////////-->
+                                        <div id="publishModal" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header" style="border-bottom: 1px solid gray;">
+                                                        <h4>Review and Publish</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <p>Total No of Modules: <span style="color:red">{{vm.moduleCnt}}</span></p>
+                                                                <p>Total No of Steps: <span style="color:red">{{vm.topicCnt}}</span></p>
+                                                                <!--<p>Certification is required for this course</p>-->
+                                                                <p>No of Files Attached: <span style="color:red">{{vm.fileCnt}}</span></p>
+                                                                <!--<p>You have allowed Mobile Users Access</p>-->
+                                                                <!--<p>Your Content is Marked as Private</p>-->
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="col-sm-10" style="padding-right:0px;width: 250px;">
+                                                                    <!------------------------------>
+                                                                    <div class="content-thumbnail">
+                                                                        <div id="publishThumbnail" ng-show="!imageUpload" style="background-color: #6c50a2; height: 100%;">
+                                                                            <canvas style="background-image: url('{{vm.ThumbnailIR}}'); font-family:LatoRegular;height:100%;width:100%;"></canvas>
+                                                                        </div>
+                                                                        <div ng-show="imageUpload" id="publishimage" class="thumbnail" style="background-image: url('images/image-placeholder.png');background-repeat: no-repeat;background-size: 100% 100%;">
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <!---------------------------------------->
+                                                                    <!----------------------------->
+                                                                    <div class="panel-body nopadding" style="height:150px;border-top: 1px solid #eee;border:1px solid black;">
+                                                                        <div>
+                                                                            <h4 class="text-headline margin-v-0-10" style="padding:10px;">
+                                                                                <b>{{vm.content.Title}}</b>
+                                                                            </h4>
+                                                                        </div>
+                                                                        <div class="thumb-Description ng-binding" style="padding:10px;">
+                                                                            {{vm.content.ShortDescription}}
+                                                                        </div>
+                                                                        <div class="nopadding" style="background-image:url('images/LableReferenceForAll.svg');height:20px;background-repeat: no-repeat;margin-left: -3px;">
+                                                                        </div>
+                                                                        <div class="col-lg-12 nopadding">
+                                                                            <div class="col-lg-6 " style="margin-top:5px">
+                                                                                <div star-rating="" rating="" read-only="true" max-rating="5" rating-count="" mouse-hover="mouseHover(param)" mouse-leave="mouseLeave(param)" class="ng-isolate-scope">
+                                                                                    <div class="ratingConainer" style="float:left" value="">
+                                                                                        <!-- ngRepeat: idx in maxRatings track by $index -->
+                                                                                        <div style="float:left; display: inline-block; margin: 0px; padding: 0px;" class="ng-scope">
+                                                                                            <img style="height:12px;margin-right:2px;float: left;width:10px" src="Images/starEmpty.svg">
+                                                                                        </div>
+                                                                                        <div style="float:left; display: inline-block; margin: 0px; padding: 0px;" class="ng-scope">
+                                                                                            <img style="height:12px;margin-right:2px;float: left;width:10px" src="Images/starEmpty.svg">
+                                                                                        </div>
+                                                                                        <div style="float:left; display: inline-block; margin: 0px; padding: 0px;" class="ng-scope">
+                                                                                            <img style="height:12px;margin-right:2px;float: left;width:10px" src="Images/starEmpty.svg">
+                                                                                        </div>
+                                                                                        <div style="float:left; display: inline-block; margin: 0px; padding: 0px;" class="ng-scope">
+                                                                                            <img style="height:12px;margin-right:2px;float: left;width:10px" src="Images/starEmpty.svg">
+                                                                                        </div>
+                                                                                        <div style="float:left; display: inline-block; margin: 0px; padding: 0px;" class="ng-scope">
+                                                                                            <img style="height:12px;margin-right:2px;float: left;width:10px" src="Images/starEmpty.svg">
+                                                                                        </div>
+                                                                                        <!-- end ngRepeat: idx in maxRatings track by $index -->
+
+                                                                                    </div><div style="float:left; margin: 0px 2px; font-size:11px;font-family:LatoRegular" class="ng-binding"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-4 nopadding" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Participants">
+                                                                                <img src="Images/participants.svg" style="height:18px;width:18px;">
+                                                                                <span style="font-size:11px;font-family:LatoRegular" class="ng-binding">(0)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!----------------------------->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top: 15px;padding-right: 15px;">
+                                                            <div class="text-right">
+                                                                <button class="btn btn-default custmbtnPub" type="button" value="Publish" data-dismiss="modal" ng-click="vm.publish()">
+                                                                    <img src="Images/PublishIcon.svg" height="14" width="14" style="vertical-align: initial;">
+                                                                    Publish
+                                                                </button>
+                                                                <button type="button" style="border: 1px solid #f15d42;" value="Back" class="btn btn-default" data-dismiss="modal">
+                                                                    Cancel
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <!-- footer -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/////////Publish Modal End/////////-->
+                                    </div>
+                                </div> -->
+
+                            </div>
+                    </form>
+    </template>
+
+    <script>
+        /**
+         * `inreach-component`
+         * 
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class InreachComponent extends Polymer.Element {
+            static get is() {
+                return 'inreach-component';
+            }
+            static get properties() {
+                return {
+                    /**
+                     *@private
+                     *To set iron media queries.
+                     **/
+                    smallMobileView: {
+                        type: Boolean,
+                        value: false
+                    },
+                    /**
+                     *@private
+                     *iron media query properties.
+                     **/
+                    mobileView: {
+                        type: Boolean,
+                        value: false
+                    },
+                    /**
+                     *@private
+                     *iron media query properties.
+                     **/
+                    tabletView: {
+                        type: Boolean,
+                        value: false
+                    },
+                    /**
+                     *@private
+                     *iron media query properties.
+                     **/
+                    desktopView: {
+                        type: Boolean,
+                        value: false
+                    },
+                    /**
+                     *@private
+                     *iron media query properties.
+                     **/
+                    largeDesktopView: {
+                        type: Boolean,
+                        value: false
+                    },
+                };
+            }
+
+            /*********************************************/
+            _sharePointListCall() {
+                this.shadowRoot.querySelector("#");
+
+            }
+            _setProp() {
+                this.style.backgroundColor = "red";
+            }
+            ready() {
+                super.ready();
+                this._sharePointListCall();
+            }
+        }
+
+        window.customElements.define(InreachComponent.is, InreachComponent);
+    </script>
+</dom-module>

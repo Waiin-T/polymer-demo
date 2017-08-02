@@ -1,0 +1,32 @@
+{
+  "name": "inreach-component",
+  "main": "inreach-component.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.0.0",
+    "app-layout": "PolymerElements/app-layout#^2.0.0",
+    "iron-form": "PolymerElements/iron-form#^1.1.5",
+    "iron-media-query": "PolymerElements/iron-media-query#^2.0.0",
+    "paper-input": "PolymerElements/paper-input#^2.0.1",
+    "paper-button": "PolymerElements/paper-button#^2.0.0"
+  },
+  "devDependencies": {
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "^2.0.0"
+  },
+  "homepage": "https://github.com/Waiin-T/inreach-test-component",
+  "version": "0.0.1",
+  "_release": "0.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.1",
+    "commit": "8aec902c584462651e719f66a6a6350c21526bcf"
+  },
+  "_source": "https://github.com/Waiin-T/inreach-test-component.git",
+  "_target": "^0.0.1",
+  "_originalSource": "Waiin-T/inreach-test-component",
+  "_direct": true
+}

@@ -1,0 +1,52 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../inreach-component/inreach-component.html">
+<dom-module id="polymer20-demo">
+    <template>
+    <style>
+       :host {
+        display: block;
+      }
+
+      #input {
+        width: 30%;
+      }
+    </style>
+    <template is="dom-repeat" items="{{rooms}}">
+      <paper-input id="input" label="First Name" auto-validate required error-message="name required"></paper-input>
+       <paper-input id="input" label="First Name11" auto-validate required error-message="name required"></paper-input> 
+      
+    </template>
+    </template>
+
+    <script>
+        /**
+         * `polymer20-demo`
+         * 
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class Polymer20Demo extends Polymer.Element {
+            static get is() {
+                return 'polymer20-demo';
+            }
+            static get properties() {
+                return {
+                    rooms: {
+                        type: Array,
+                        value: '[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]'
+                    },
+
+                };
+            }
+
+
+        }
+
+        window.customElements.define(Polymer20Demo.is, Polymer20Demo);
+    </script>
+</dom-module>
